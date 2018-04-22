@@ -1,0 +1,23 @@
+{
+  "name": "wps-core",
+  "authors": [
+    "Travis Smith <t@wpsmith.net>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "save": true,
+  "save-exact": false,
+  "dependencies": {
+    "sw-toolbox": "^3.6.1"
+  }
+}
