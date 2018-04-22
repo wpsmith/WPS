@@ -25,6 +25,6 @@
   "files": [
     "src/functions.php",
     "src/helpers.php",
-    "src/Core/AsyncTransients/helpers.php"
+    "src/AsyncTransients/helpers.php"
   ]
 }
