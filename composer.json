@@ -1,0 +1,25 @@
+{
+  "name"       : "wpsmith/wps",
+  "description": "Core classes for your WordPress plugin.",
+  "keywords"   : ["wordpress", "plugin", "dependency", "extension", "singleton"],
+  "homepage"   : "https://github.com/wpsmith/WPS-Core",
+  "license"    : "GPL-2.0+",
+  "authors"    : [
+    {
+      "name"    : "Travis Smith",
+      "email"   : "t@wpsmith.net",
+      "homepage": "http://wpsmith.net/"
+    }
+  ],
+  "support"    : {
+    "issues": "https://github.com/wpsmith/WPS/issues"
+  },
+  "require"    : {
+    "php": ">=5.2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "WPS\\": "src/"
+    }
+  }
+}
