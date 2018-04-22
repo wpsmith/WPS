@@ -1,0 +1,11 @@
+{
+  "directory": "js",
+  "color": true,
+  "timeout": 60000,
+  "save": true,
+  "save-exact": false,
+  "strict-ssl": true,
+  "ignoredDependencies": [
+    "jquery"
+  ]
+}
