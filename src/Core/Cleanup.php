@@ -8,7 +8,7 @@
  * @link       https://github.com/wpsmith/WPS/
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @version    1.0.0
- * @since      File available since Release 1.0.0
+ * @since      0.1.0
  */
 
 namespace WPS\Core;
@@ -19,6 +19,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'Cleanup' ) ) {
+	/**
+	 * Cleanup Abstract Class
+	 *
+	 * Assists in cleaning up some widgets, dashboard,
+	 * menu items, admin bar, post formats, and frontend HTML header tags.
+	 *
+	 * @package WPS\Core
+	 * @author Travis Smith <t@wpsmith.net>
+	 */
+
 	abstract class Cleanup extends Singleton {
 
 		/**
