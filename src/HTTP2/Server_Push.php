@@ -15,7 +15,6 @@
 namespace WPS\HTTP2;
 
 use WPS\Core;
-use WPS;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -197,7 +196,7 @@ if ( ! class_exists( 'Server_Push' ) ) {
 		 * @param string $type Parameter to pass to function.
 		 */
 		private function each( $arr, $fn, $type ) {
-			WPS\each( $arr, $fn, $type );
+			\WPS\each( $arr, $fn, $type );
 		}
 
 		/**
@@ -231,7 +230,7 @@ if ( ! class_exists( 'Server_Push' ) ) {
 		}
 
 		public function do_item_link( $handle, $type ) {
-			$item = WPS\get_script_style_dependency( $type, $handle );
+			$item = \WPS\get_script_style_dependency( $type, $handle );
 			if ( $item->src ) {
 				printf( '<link rel="preload" href="%s" as="%s">', $item->handle, esc_url( $item->src ), $type );
 			}
@@ -245,8 +244,8 @@ if ( ! class_exists( 'Server_Push' ) ) {
 			if ( is_admin() || ! $this->should_render_prefetch_headers() ) {
 				return;
 			}
-			WPS\each( wp_scripts()->queue, array( $this, 'do_item_link' ), 'script' );
-			WPS\each( wp_styles()->queue, array( $this, 'do_item_link' ), 'style' );
+			$this->each( wp_scripts()->queue, array( $this, 'do_item_link' ), 'script' );
+			$this->each( wp_styles()->queue, array( $this, 'do_item_link' ), 'style' );
 
 		}
 
