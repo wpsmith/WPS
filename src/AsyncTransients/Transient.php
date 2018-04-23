@@ -1,6 +1,6 @@
 <?php
 
-namespace WPS\Core\AsyncTransients;
+namespace WPS\AsyncTransients;
 use WPS\Core;
 
 /**
@@ -180,10 +180,8 @@ class Transient extends Core\Singleton {
 	 * @param array $params_array
 	 */
 	public function add_to_queue( $function, $params_array = array() ) {
-		\WPS\write_log('adding to queue');
 
 		if ( function_exists( 'fastcgi_finish_request' ) ) {
-			\WPS\write_log('fastcgi_finish_request exists');
 			/*
 			 * Generates a unique hash of the function + params, to make sure we only process a callback for one
 			 * combination even if it is accidentally added multiple times in a request for the same set of data
@@ -201,7 +199,6 @@ class Transient extends Core\Singleton {
 			}
 		} else {
 			// We don't have fastcgi_finish_request available, so refresh the transient now instead of queuing it for later.
-			\WPS\write_log('no fastcgi_finish_request, doing now');
 			call_user_func_array( $function, $params_array );
 		}
 	}

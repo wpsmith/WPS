@@ -3,7 +3,7 @@
  * Helper functions that wrap for the methods exposed by the Transient class.
  */
 
-namespace WPS\Core\AsyncTransients;
+namespace WPS\AsyncTransients;
 
 /**
  * Deletes a given transient
