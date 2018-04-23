@@ -306,7 +306,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function is_cron_disabled() {
+		public function is_cron_disabled() {
 			return \WPS\is_cron_disabled();
 		}
 
@@ -315,7 +315,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function is_doing_cron() {
+		public function is_doing_cron() {
 			return \WPS\is_doing_cron();
 		}
 
