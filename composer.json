@@ -21,7 +21,9 @@
     "issues": "https://github.com/wpsmith/WPS/issues"
   },
   "require": {
-    "php": ">=5.2.4"
+    "php": ">=5.2.4",
+    "wpsmith/wps-singleton": "0.0.1",
+    "wpsmith/wps-plugin": "0.0.1"
   },
   "autoload": {
     "psr-4": {
