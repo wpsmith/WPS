@@ -29,6 +29,11 @@
     },
     "files": [
       "src/functions.php",
+      "src/archives.php",
+      "src/column-classes.php",
+      "src/debug.php",
+      "src/images.php",
+      "src/actions.php",
       "src/helpers.php",
       "src/AsyncTransients/helpers.php"
     ]

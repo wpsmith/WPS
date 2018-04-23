@@ -1,9 +1,12 @@
 <?php
-/**
- * Helper functions that wrap for the methods exposed by the Transient class.
- */
 
-namespace WPS\AsyncTransients;
+namespace WPS;
+use WPS\AsyncTransients\Transient;
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Deletes a given transient
@@ -23,7 +26,7 @@ function delete_async_transient( $transient ) {
  * @param Callable $regenerate_function The function to call to regenerate the transient when it is expired
  * @param array $regenerate_params Array of parameters to pass to the callback when regenerating the transient.
  *
- * @return mixed|void
+ * @return mixed
  */
 function get_async_transient( $transient, $regenerate_function, $regenerate_params = array() ) {
 	return Transient::get_instance()->get( $transient, $regenerate_function, $regenerate_params );
@@ -36,7 +39,7 @@ function get_async_transient( $transient, $regenerate_function, $regenerate_para
  * @param Callable $regenerate_function The function to call to regenerate the transient when it is expired
  * @param array $regenerate_params Array of parameters to pass to the callback when regenerating the transient.
  *
- * @return mixed|void
+ * @return mixed
  */
 function get_stale_transient( $transient ) {
 	return Transient::get_instance()->get_stale( $transient );

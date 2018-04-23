@@ -24,7 +24,7 @@ function genesis_pre_get_image( $pre, $args ) {
 	if ( $meta && 'html' === $args['format'] ) {
 		if ( isset( $args['size'] ) ) {
 			if ( is_string( $args['size'] ) ) {
-				$size = WPS\get_image_size( $args['size'] );
+				$size = get_image_size( $args['size'] );
 
 				return wp_oembed_get( $meta, $size );
 			} else if ( is_array( $args['size'] ) ) {
