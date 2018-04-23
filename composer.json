@@ -24,16 +24,13 @@
     "php": ">=5.2.4"
   },
   "autoload": {
-    "psr-0": {
-      "WPS\\": "src/"
-    },
     "psr-4": {
       "WPS\\": "src/"
-    }
-  },
-  "files": [
-    "src/functions.php",
-    "src/helpers.php",
-    "src/AsyncTransients/helpers.php"
-  ]
+    },
+    "files": [
+      "src/functions.php",
+      "src/helpers.php",
+      "src/AsyncTransients/helpers.php"
+    ]
+  }
 }
