@@ -28,14 +28,13 @@
       "WPS\\": "src/"
     },
     "files": [
-      "src/functions.php",
-      "src/archives.php",
-      "src/column-classes.php",
-      "src/debug.php",
-      "src/images.php",
-      "src/actions.php",
-      "src/helpers.php",
-      "src/AsyncTransients/helpers.php"
+      "src/lib/functions.php",
+      "src/lib/archives.php",
+      "src/lib/column-classes.php",
+      "src/lib/debug.php",
+      "src/lib/images.php",
+      "src/lib/actions.php",
+      "src/lib/helpers.php"
     ]
   }
 }
