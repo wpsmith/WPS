@@ -1,19 +1,25 @@
 <?php
 /**
- * WPS Core Crong Class
+ * Cron Class
+ *
+ * Assist in setting up cron jobs within WordPress.
+ *
+ * You may copy, distribute and modify the software as long as you track changes/dates in source files.
+ * Any modifications to or software including (via compiler) GPL-licensed code must also be made
+ * available under the GPL along with build & install instructions.
  *
  * @package    WPS\Core
  * @author     Travis Smith <t@wpsmith.net>
- * @copyright  2015-2018 WP Smith, Travis Smith
- * @link       https://github.com/wpsmith/WPS/
- * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @copyright  2015-2018 Travis Smith
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ * @link       https://github.com/wpsmith/WPS
  * @version    1.0.0
  * @since      0.1.0
  */
 
 namespace WPS\Core;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -25,7 +31,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 	 * Assists in creating and managing cron jobs.
 	 *
 	 * @package WPS\Core
-	 * @author Travis Smith <t@wpsmith.net>
+	 * @author  Travis Smith <t@wpsmith.net>
 	 */
 	class WP_Cron extends Singleton {
 
@@ -46,7 +52,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		/**
 		 * Either a cron schedule.
 		 *
-		 * array(
+		 * Schedule is an array(
 		 *     'name'     => 'every-other-day',
 		 *     'interval' => DAY_IN_SECONDS * 2,
 		 *     'display'  => __( 'Every Other Day', 'domain' ),
@@ -84,6 +90,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 
 		/**
 		 * Minute-by-minute schedule name.
+		 *
 		 * @const string
 		 */
 		const MINUTE = 'minute';
@@ -112,11 +119,11 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		/**
 		 * WP_Cron constructor.
 		 *
-		 * @param string $cron_name Name of the cron job.
-		 * @param string $interval Interval of the cron job. The 'interval' is a number in seconds of when the cron job should run.
-		 *                         Built-in values include: minute, hourly, daily, weekly, monthly, yearly.
-		 * @param callable $callback Function callback for job.
-		 * @param bool $create_now Whether to create the cron job now.
+		 * @param string   $cron_name            Name of the cron job.
+		 * @param string   $interval_or_schedule Interval of the cron job. The 'interval' is a number in seconds of when the cron job should run.
+		 *                                       Built-in values include: minute, hourly, daily, weekly, monthly, yearly.
+		 * @param callable $callback             Function callback for job.
+		 * @param bool     $create_now           Whether to create the cron job now.
 		 */
 		public function __construct( $cron_name, $interval_or_schedule, $callback, $create_now = false ) {
 			$this->name = $cron_name;
@@ -146,7 +153,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		private function has_interval() {
 			$schedules = wp_get_schedules();
 			foreach ( $schedules as $name => $schedule ) {
-				if ( $schedule['interval'] == $this->interval ) {
+				if ( $schedule['interval'] === $this->interval ) {
 					if ( empty( $this->schedule ) ) {
 						$this->schedule = $schedule;
 					}
@@ -182,7 +189,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 						break;
 				}
 
-				// If $interval_or_schedule is numeric, then let's assume it is the interval
+				// If $interval_or_schedule is numeric, then let's assume it is the interval.
 			} elseif ( is_numeric( $interval_or_schedule ) ) {
 				$this->interval = $interval_or_schedule;
 
@@ -203,17 +210,17 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 					}
 				}
 			} elseif ( is_array( $interval_or_schedule ) && isset( $interval_or_schedule['interval'] ) ) {
-				// Sanitize 'interval'
+				// Sanitize 'interval'.
 				$interval_or_schedule['interval'] = $this->get_interval( $interval_or_schedule['interval'] );
 			}
 
 			// Now we should have a sanitized schedule in $interval_or_schedule.
-			// If $interval_or_schedule is an schedule array, then let's hook into `cron_schedules`
+			// If $interval_or_schedule is an schedule array, then let's hook into `cron_schedules`.
 			if ( is_array( $interval_or_schedule ) ) {
 				if ( empty( $this->schedule ) ) {
 					$this->schedule = $interval_or_schedule;
 				}
-				if ( $this->interval === 0 || $this->interval == null ) {
+				if ( 0 === $this->interval || null === $this->interval ) {
 					$this->interval = $interval_or_schedule['interval'];
 				}
 				add_filter( 'cron_schedules', array( $this, 'add_cron_schedule' ) );
@@ -223,7 +230,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		/**
 		 * Gets a schedule array.
 		 *
-		 * @param string $name Slug of the cron job.
+		 * @param string         $name     Slug of the cron job.
 		 * @param string|integer $interval Interval value of the cron job.
 		 *
 		 * @return array Schedule array.
@@ -249,7 +256,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		/**
 		 * Adds a cron job.
 		 *
-		 * @param $schedules
+		 * @param array $schedules Array of schedules.
 		 *
 		 * @return mixed
 		 */
@@ -267,7 +274,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 				isset( $schedules[ $this->schedule['name'] ] ) &&
 				$schedules[ $this->schedule['name'] ]['interval'] !== $this->schedule['name']['interval']
 			) {
-				$this->schedule['name'] = $this->schedule['name'] . '-' . $this->schedule['name']['interval'];
+				$this->schedule['name']               = $this->schedule['name'] . '-' . $this->schedule['name']['interval'];
 				$schedules[ $this->schedule['name'] ] = array(
 					'interval' => $this->schedule['interval'],
 					'display'  => $this->schedule['display'],
@@ -280,20 +287,20 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		/**
 		 * Gets a sanitized interval.
 		 *
-		 * @param string|integer $interval
+		 * @param string|integer $interval Cron interval.
 		 *
-		 * @return integer
+		 * @return integer Cron Interval.
 		 */
 		private function get_interval( $interval ) {
 			switch ( $interval ) {
 				case 'minute':
-				case 'weekly'  :
-				case 'monthly' :
+				case 'weekly':
+				case 'monthly':
 				case 'yearly':
 					return $this->intervals[ $interval ];
 				default:
 					if ( is_numeric( $interval ) ) {
-						return (int)$interval;
+						return (int) $interval;
 					}
 
 					return self::DEFAULT_INTERVAL;
@@ -306,7 +313,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function is_cron_disabled() {
+		public function is_cron_disabled() {
 			return \WPS\is_cron_disabled();
 		}
 
@@ -315,7 +322,7 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function is_doing_cron() {
+		public function is_doing_cron() {
 			return \WPS\is_doing_cron();
 		}
 
@@ -325,10 +332,10 @@ if ( ! class_exists( 'WP_Cron' ) ) {
 		 * @return bool False if the event does not get scheduled.
 		 */
 		public function create_cron() {
-			// Use wp_next_scheduled() to check if the event is already scheduled
+			// Use wp_next_scheduled() to check if the event is already scheduled.
 			$timestamp = wp_next_scheduled( $this->name );
 
-			// If not scheduled, let's schedule it
+			// If not scheduled, let's schedule it.
 			if ( false === $timestamp ) {
 				$scheduled = wp_schedule_event( time(), $this->schedule['name'], $this->name );
 				if ( false === $scheduled ) {
