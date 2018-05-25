@@ -8,7 +8,7 @@
     "extension",
     "singleton"
   ],
-  "homepage": "https://github.com/wpsmith/WPS-Core",
+  "homepage": "https://github.com/wpsmith/WPS",
   "license": "GPL-2.0+",
   "authors": [
     {
@@ -21,7 +21,10 @@
     "issues": "https://github.com/wpsmith/WPS/issues"
   },
   "require": {
-    "php": ">=5.2.4"
+    "php": ">=5.2.4",
+    "stoutlogic/acf-builder": "*",
+    "wpsmith/wps-singleton": "0.0.1",
+    "wpsmith/wps-plugin": "0.0.1"
   },
   "autoload": {
     "psr-4": {
@@ -33,7 +36,6 @@
       "src/lib/column-classes.php",
       "src/lib/debug.php",
       "src/lib/images.php",
-      "src/lib/actions.php",
       "src/lib/helpers.php"
     ]
   }
