@@ -1,9 +1,8 @@
 <?php
 
-namespace WPS\PostTypes;
+namespace Site\PostTypes;
 
 use WPS\Core;
-use StoutLogic\AcfBuilder\FieldsBuilder;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Slide extends Core\Post_Type {
 
 	public $post_type = 'slide';
-	public $remove_post_type_meta = true;
+	public $remove_post_type_entry_meta = true;
 
 	public function core_acf_fields( $fields ) {
-		$content = new FieldsBuilder( $this->post_type );
+		$content = $this->new_fields_builder();
 		$content
 			->addText( 'slide_number_value', array(
 				'label'                => __( 'Slide Number Value', SITE_MU_TEXT_DOMAIN ),
