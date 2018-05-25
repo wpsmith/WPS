@@ -220,3 +220,4 @@ _deprecated/
 bak/
 _bak/
 *.bak
+vendor/
