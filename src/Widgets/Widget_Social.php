@@ -1,83 +1,111 @@
 <?php
-
-/*
- * Widget class.
+/**
+ * Widget Social Class File
+ *
+ * Social Widget.
+ *
+ * You may copy, distribute and modify the software as long as you track changes/dates in source files.
+ * Any modifications to or software including (via compiler) GPL-licensed code must also be made
+ * available under the GPL along with build & install instructions.
+ *
+ * @package    WPS\Widgets
+ * @author     Travis Smith <t@wpsmith.net>
+ * @copyright  2015-2018 Travis Smith
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ * @link       https://github.com/wpsmith/WPS
+ * @version    1.0.0
+ * @since      0.1.0
  */
 
 namespace WPS\Widgets;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Widget_Social extends \WP_Widget {
-
+if ( ! class_exists( 'Widget_Social' ) ) {
 	/**
-	 * Holds widget settings defaults, populated in constructor.
-	 *
-	 * @var array
+	 * Class Widget_Social
+     *
+	 * @package WPS\Widgets
 	 */
-	protected $defaults;
+	class Widget_Social extends WP_Widget {
 
-	/**
-	 * WPS_Widget_Social constructor.
-	 */
-	public function __construct() {
+		/**
+		 * WPS_Widget_Social constructor.
+		 */
+		public function __construct() {
 
-		$this->defaults = array(
-			'title'     => '',
-			'facebook'  => '',
-			'twitter'   => '',
-			'instagram' => '',
-			'email'     => '',
-		);
+			$this->defaults = $this->get_defaults();
 
-		/* Widget settings. */
-		$widget_ops = array(
-			'classname'   => 'site_social_widget',
-			'description' => __( 'A widget that addresses your social information.', WPSCORE_PLUGIN_DOMAIN )
-		);
+			/* Widget settings. */
+			$widget_ops = array(
+				'classname'   => 'site_social_widget',
+				'description' => __( 'A widget that addresses your social information.', WPSCORE_PLUGIN_DOMAIN ),
+			);
 
-		/* Create the widget. */
-		parent::__construct( 'site_social_widget', __( 'Social Widget', WPSCORE_PLUGIN_DOMAIN ), $widget_ops );
-	}
-
-	/**
-	 * Display Widget.
-	 *
-	 * @param array $args
-	 * @param array $instance
-	 */
-	public function widget( $args, $instance ) {
-
-		// Merge with defaults.
-		$instance = wp_parse_args( (array) $instance, $this->defaults );
-
-		/* Before widget (defined by themes). */
-		echo $args['before_widget'];
-
-		/* Display the widget title if one was input (before and after defined by themes). */
-		if ( $instance['title'] ) {
-			echo $args['before_title'] . $instance['title'] . $args['after_title'];
+			/* Create the widget. */
+			parent::__construct( 'site_social_widget', __( 'Social Widget', WPSCORE_PLUGIN_DOMAIN ), $widget_ops );
 		}
 
-		$output = '<ul class="swi">';
-		foreach ( array( 'facebook', 'twitter', 'instagram', 'email', ) as $icon ) {
-		    $output .= sprintf( '<li class="swi-' . strrev( $icon ) . '"><a href="%s" target="_blank">' . $this->get_icon( $icon ) . '</a></li>', $instance[ $icon ] );
+		/**
+		 * Gets default values.
+		 *
+		 * @return array
+		 */
+		protected function get_defaults() {
+		    return array(
+			    'title'     => '',
+			    'facebook'  => '',
+			    'twitter'   => '',
+			    'instagram' => '',
+			    'email'     => '',
+		    );
+        }
+
+		/**
+		 * Display Widget.
+		 *
+		 * @param array $args Array of widget args.
+		 * @param array $instance Array of widget instance args.
+		 */
+		public function widget( $args, $instance ) {
+
+			// Merge with defaults.
+			$instance = wp_parse_args( (array) $instance, $this->defaults );
+
+			/* Before widget (defined by themes). */
+			echo $args['before_widget'];
+
+			/* Display the widget title if one was input (before and after defined by themes). */
+			if ( $instance['title'] ) {
+				echo $args['before_title'] . $instance['title'] . $args['after_title'];
+			}
+
+			$output = '<ul class="swi">';
+			foreach ( array( 'facebook', 'twitter', 'instagram', 'email', ) as $icon ) {
+				$output .= sprintf( '<li class="swi-' . strrev( $icon ) . '"><a href="%s" target="_blank">' . $this->get_icon( $icon ) . '</a></li>', $instance[ $icon ] );
+			}
+			$output .= '</ul>';
+
+			echo $output;
+
+			/* After widget (defined by themes). */
+			echo $args['after_widget'];
 		}
-		$output .= '</ul>';
 
-		echo $output;
-
-		/* After widget (defined by themes). */
-		echo $args['after_widget'];
-	}
-
-	private function get_icon( $name ) {
-	    switch ( $name ) {
-            case 'facebook':
-                return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		/**
+         * Gets icon inline SVG.
+         *
+		 * @param string $name Icon name.
+		 *
+		 * @return string HTML markup.
+		 */
+		private function get_icon( $name ) {
+			switch ( $name ) {
+				case 'facebook':
+					return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
@@ -95,8 +123,8 @@ class Widget_Social extends \WP_Widget {
         </g>
     </g>
 </svg>';
-            case 'email':
-                return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				case 'email':
+					return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
@@ -115,8 +143,8 @@ class Widget_Social extends \WP_Widget {
         </g>
     </g>
 </svg>';
-            case 'instagram':
-                return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				case 'instagram':
+					return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
@@ -134,8 +162,8 @@ class Widget_Social extends \WP_Widget {
         </g>
     </g>
 </svg>';
-            case 'twitter':
-                return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				case 'twitter':
+					return '<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
@@ -153,79 +181,81 @@ class Widget_Social extends \WP_Widget {
         </g>
     </g>
 </svg>';
-        }
-        return '';
-    }
+			}
 
-	/**
-	 * Update Widget
-	 *
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 *
-	 * @return array
-	 */
-	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
+			return '';
+		}
 
-		$instance['facebook']  = esc_url_raw( $new_instance['facebook'] );
-		$instance['twitter']   = esc_url_raw( $new_instance['twitter'] );
-		$instance['instagram'] = esc_url_raw( $new_instance['instagram'] );
-		$instance['email']     = sanitize_email( $new_instance['email'] );
+		/**
+		 * Update Widget
+		 *
+		 * @param array $new_instance New instance values.
+		 * @param array $old_instance Old instance values.
+		 *
+		 * @return array
+		 */
+		public function update( $new_instance, $old_instance ) {
+			$instance = $old_instance;
+
+			$instance['facebook']  = esc_url_raw( $new_instance['facebook'] );
+			$instance['twitter']   = esc_url_raw( $new_instance['twitter'] );
+			$instance['instagram'] = esc_url_raw( $new_instance['instagram'] );
+			$instance['email']     = sanitize_email( $new_instance['email'] );
 
 
-		return $instance;
-	}
+			return $instance;
+		}
 
-	/**
-	 * Displays the widget settings controls on the widget panel.
-	 * Make use of the get_field_id() and get_field_name() function
-	 * when creating your form elements. This handles the confusing stuff.
-	 *
-	 * @param array $instance
-	 *
-	 * @return null
-	 */
-	function form( $instance ) {
+		/**
+		 * Displays the widget settings controls on the widget panel.
+		 * Make use of the get_field_id() and get_field_name() function
+		 * when creating your form elements. This handles the confusing stuff.
+		 *
+		 * @param array $instance Widget instance args.
+		 */
+		function form( $instance ) {
 
-		// Merge with defaults.
-		$instance = wp_parse_args( (array) $instance, $this->defaults );
+			// Merge with defaults.
+			$instance = wp_parse_args( (array) $instance, $this->defaults );
 
-		?>
+			?>
 
-        <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', WPSCORE_PLUGIN_DOMAIN ) ?></label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-                   name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>"/>
-        </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', WPSCORE_PLUGIN_DOMAIN ) ?></label>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
+                       name="<?php echo $this->get_field_name( 'title' ); ?>"
+                       value="<?php echo $instance['title']; ?>"/>
+            </p>
 
-        <p>
-            <label for="<?php echo $this->get_field_id( 'facebook' ); ?>"><?php _e( 'Facebook:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'facebook' ); ?>"
-                   name="<?php echo $this->get_field_name( 'facebook' ); ?>"
-                   value="<?php echo $instance['facebook']; ?>"/>
-        </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'facebook' ); ?>"><?php _e( 'Facebook:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'facebook' ); ?>"
+                       name="<?php echo $this->get_field_name( 'facebook' ); ?>"
+                       value="<?php echo $instance['facebook']; ?>"/>
+            </p>
 
-        <p>
-            <label for="<?php echo $this->get_field_id( 'twitter' ); ?>"><?php _e( 'Twitter:', WPSCORE_PLUGIN_DOMAIN ) ?></label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'twitter' ); ?>"
-                   name="<?php echo $this->get_field_name( 'twitter' ); ?>"
-                   value="<?php echo $instance['twitter']; ?>"/>
-        </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'twitter' ); ?>"><?php _e( 'Twitter:', WPSCORE_PLUGIN_DOMAIN ) ?></label>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'twitter' ); ?>"
+                       name="<?php echo $this->get_field_name( 'twitter' ); ?>"
+                       value="<?php echo $instance['twitter']; ?>"/>
+            </p>
 
-        <p>
-            <label for="<?php echo $this->get_field_id( 'email' ); ?>"><?php _e( 'Email:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'email' ); ?>"
-                   name="<?php echo $this->get_field_name( 'email' ); ?>" value="<?php echo $instance['email']; ?>"/>
-        </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'email' ); ?>"><?php _e( 'Email:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'email' ); ?>"
+                       name="<?php echo $this->get_field_name( 'email' ); ?>"
+                       value="<?php echo $instance['email']; ?>"/>
+            </p>
 
-        <p>
-            <label for="<?php echo $this->get_field_id( 'instagram' ); ?>"><?php _e( 'Instagram:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>"
-                   name="<?php echo $this->get_field_name( 'instagram' ); ?>"
-                   value="<?php echo $instance['instagram']; ?>"/>
-        </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'instagram' ); ?>"><?php _e( 'Instagram:', WPSCORE_PLUGIN_DOMAIN ) ?> </label>
+                <input type="text" class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>"
+                       name="<?php echo $this->get_field_name( 'instagram' ); ?>"
+                       value="<?php echo $instance['instagram']; ?>"/>
+            </p>
 
-		<?php
+			<?php
+		}
 	}
 }
