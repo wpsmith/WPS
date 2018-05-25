@@ -1,7 +1,6 @@
 <?php
 
-namespace WPS\PostTypes;
-
+namespace Site\PostTypes;
 use WPS\Core;
 
 // Exit if accessed directly
@@ -11,14 +10,83 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Testimonial extends Core\Post_Type {
 
+	/**
+	 * Post Type registered name
+	 *
+	 * @var string
+	 */
 	public $post_type = 'testimonial';
 
-	public $remove_post_type_meta = true;
+	/**
+	 * Singular Post Type registered name
+	 *
+	 * @var string
+	 */
+	public $singular = 'testimonial';
+
+	/**
+	 * Plural Post Type registered name
+	 *
+	 * @var string
+	 */
+	public $plural = 'testimonials';
+
+	/**
+	 * What metaboxes to remove.
+	 *
+	 * Supports 'genesis-cpt-archives-layout-settings', 'genesis-cpt-archives-seo-settings',
+	 * and 'genesis-cpt-archives-settings'.
+	 *
+	 * @var array
+	 */
+	public $remove_metaboxes = array(
+		'genesis-cpt-archives-layout-settings'
+	);
+
+	/**
+	 * Whether to remove meta functions from post type display.
+	 *
+	 * @var bool
+	 */
+	public $remove_post_type_entry_meta = true;
+
+	/**
+	 * Whether to create a related types taxonomy.
+	 *
+	 * @var bool
+	 */
+	public $types = true;
 
 	/**
 	 * Register custom post type
 	 */
 	public function create_post_type() {
+		$this->register_post_type( array(
+//			'label'               => __( 'Testimonials', SITE_MU_TEXT_DOMAIN ),
+//			'description'         => __( 'For Testimonials', SITE_MU_TEXT_DOMAIN ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 6.9,
+			'menu_icon'           => 'dashicons-format-quote',
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => false,
+			'exclude_from_search' => true,
+			'publicly_queryable'  => true,
+			'rewrite'             => false,
+			'capability_type'     => 'post',
+			'register_rating'		=> 'add_rating_metabox',
+			'show_in_rest'        => true,
+		) );
+	}
+
+	/**
+	 * Register custom post type
+	 */
+	public function create_post_type_bak() {
 
 		$labels   = array(
 			'name'                  => _x( 'Testimonials', 'Post Type General Name', SITE_MU_TEXT_DOMAIN ),
@@ -89,51 +157,18 @@ class Testimonial extends Core\Post_Type {
 //	new WPS\Templates\Simple_Sidebars( 'testimonial' );
 	}
 
-	/**
-	 * Register Custom Taxonomy
-	 */
-	public function create_taxonomy() {
-
-		$labels  = array(
-			'name'                       => _x( 'Types', 'Taxonomy General Name', SITE_MU_TEXT_DOMAIN ),
-			'singular_name'              => _x( 'Type', 'Taxonomy Singular Name', SITE_MU_TEXT_DOMAIN ),
-			'menu_name'                  => __( 'Types', SITE_MU_TEXT_DOMAIN ),
-			'all_items'                  => __( 'All Items', SITE_MU_TEXT_DOMAIN ),
-			'parent_item'                => __( 'Parent Item', SITE_MU_TEXT_DOMAIN ),
-			'parent_item_colon'          => __( 'Parent Item:', SITE_MU_TEXT_DOMAIN ),
-			'new_item_name'              => __( 'New Item Name', SITE_MU_TEXT_DOMAIN ),
-			'add_new_item'               => __( 'Add New Item', SITE_MU_TEXT_DOMAIN ),
-			'edit_item'                  => __( 'Edit Item', SITE_MU_TEXT_DOMAIN ),
-			'update_item'                => __( 'Update Item', SITE_MU_TEXT_DOMAIN ),
-			'view_item'                  => __( 'View Item', SITE_MU_TEXT_DOMAIN ),
-			'separate_items_with_commas' => __( 'Separate items with commas', SITE_MU_TEXT_DOMAIN ),
-			'add_or_remove_items'        => __( 'Add or remove items', SITE_MU_TEXT_DOMAIN ),
-			'choose_from_most_used'      => __( 'Choose from the most used', SITE_MU_TEXT_DOMAIN ),
-			'popular_items'              => __( 'Popular Items', SITE_MU_TEXT_DOMAIN ),
-			'search_items'               => __( 'Search Items', SITE_MU_TEXT_DOMAIN ),
-			'not_found'                  => __( 'Not Found', SITE_MU_TEXT_DOMAIN ),
-			'no_terms'                   => __( 'No items', SITE_MU_TEXT_DOMAIN ),
-			'items_list'                 => __( 'Items list', SITE_MU_TEXT_DOMAIN ),
-			'items_list_navigation'      => __( 'Items list navigation', SITE_MU_TEXT_DOMAIN ),
+	protected function get_supports() {
+		return array(
+			'title',
+			'editor',
+//			'excerpt',
+			'thumbnail',
+//		'genesis-seo',
+//		'genesis-scripts',
+//		'genesis-layouts',
+//		'genesis-cpt-archives-settings',
+//		'genesis-simple-sidebars',
 		);
-		$rewrite = array(
-			'slug'         => 'testimonial-type',
-			'with_front'   => true,
-			'hierarchical' => false,
-		);
-		$args    = array(
-			'labels'            => $labels,
-			'hierarchical'      => true,
-			'public'            => true,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
-			'show_tagcloud'     => true,
-			'rewrite'           => $rewrite,
-			'show_in_rest'      => true,
-		);
-		register_taxonomy( 'testimonial-type', array( 'testimonial' ), $args );
-
 	}
 
 }
