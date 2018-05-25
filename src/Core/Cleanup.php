@@ -1,24 +1,30 @@
 <?php
 /**
- * WPS Core Cleanup Abstract Class
+ * Cleanup Abstract Class
+ *
+ * Cleans up some of the output from WordPress to obscure the CMS.
+ *
+ * You may copy, distribute and modify the software as long as you track changes/dates in source files.
+ * Any modifications to or software including (via compiler) GPL-licensed code must also be made
+ * available under the GPL along with build & install instructions.
  *
  * @package    WPS\Core
  * @author     Travis Smith <t@wpsmith.net>
- * @copyright  2015-2018 WP Smith, Travis Smith
- * @link       https://github.com/wpsmith/WPS/
- * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @copyright  2015-2018 Travis Smith
+ * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ * @link       https://github.com/wpsmith/WPS
  * @version    1.0.0
  * @since      0.1.0
  */
 
 namespace WPS\Core;
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Cleanup' ) ) {
+if ( ! class_exists( 'WPS\Core\Cleanup' ) ) {
 	/**
 	 * Cleanup Abstract Class
 	 *
@@ -26,9 +32,8 @@ if ( ! class_exists( 'Cleanup' ) ) {
 	 * menu items, admin bar, post formats, and frontend HTML header tags.
 	 *
 	 * @package WPS\Core
-	 * @author Travis Smith <t@wpsmith.net>
+	 * @author  Travis Smith <t@wpsmith.net>
 	 */
-
 	abstract class Cleanup extends Singleton {
 
 		/**
@@ -37,7 +42,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		 * @var array
 		 */
 		protected $_wp_widgets = array(
-			// WordPress
+			// WordPress.
 			'WP_Widget_Pages',
 			'WP_Widget_Calendar',
 			'WP_Widget_Archives',
@@ -52,7 +57,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 			'WP_Widget_Tag_Cloud',
 			'WP_Nav_Menu_Widget',
 
-			// Genesis
+			// Genesis.
 			'Genesis_Featured_Page',
 			'Genesis_Featured_Post',
 			'Genesis_User_Profile_Widget',
@@ -61,7 +66,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 			'Genesis_Widget_Menu_Categories',
 			'Genesis_Latest_Tweets_Widget',
 
-			// Plugins
+			// Plugins.
 			'Akismet_Widget',
 		);
 
@@ -71,17 +76,17 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		 * @var array
 		 */
 		protected $_dashboard_widgets = array(
-			'dashboard_activity', // Activity
-			'dashboard_right_now', // Right Now
-			'dashboard_recent_comments', // Recent Comments
-			'dashboard_incoming_links', // Incoming Links
-			'dashboard_plugins', // Plugins
-			'dashboard_quick_press', // Quick Press
-			'dashboard_recent_drafts', // Recent Drafts
-			'dashboard_primary', // WordPress Blog
-			'dashboard_secondary', // Other WordPress News
+			'dashboard_activity', // Activity.
+			'dashboard_right_now', // Right Now.
+			'dashboard_recent_comments', // Recent Comments.
+			'dashboard_incoming_links', // Incoming Links.
+			'dashboard_plugins', // Plugins.
+			'dashboard_quick_press', // Quick Press.
+			'dashboard_recent_drafts', // Recent Drafts.
+			'dashboard_primary', // WordPress Blog.
+			'dashboard_secondary', // Other WordPress News.
 
-			'rg_forms_dashboard', // Gravity Forms
+			'rg_forms_dashboard', // Gravity Forms.
 		);
 
 		/**
@@ -90,15 +95,15 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		 * @var array
 		 */
 		protected $_menu = array(
-			'edit.php', // Posts
-			'upload.php', // Media
-			'edit-comments.php', // Comments
-			'edit.php?post_type=page', // Pages
-			'plugins.php', // Plugins
-			'themes.php', // Appearance
-			'users.php', // Users
-			'tools.php', // Tools
-			'options-general.php', // Settings
+			'edit.php', // Posts.
+			'upload.php', // Media.
+			'edit-comments.php', // Comments.
+			'edit.php?post_type=page', // Pages.
+			'plugins.php', // Plugins.
+			'themes.php', // Appearance.
+			'users.php', // Users.
+			'tools.php', // Tools.
+			'options-general.php', // Settings.
 		);
 
 		/**
@@ -107,21 +112,19 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		 * @var array
 		 */
 		protected $_links = array(
-			//'wp_resource_hints'               => 2,
-
-			// remove rss feed links (make sure you add them in yourself if youre using feedblitz or an rss service)
+			// remove rss feed links (make sure you add them in yourself if youre using feedblitz or an rss service).
 			'feed_links'                      => 2,
-			// removes all extra rss feed links
+			// removes all extra rss feed links.
 			'feed_links_extra'                => 3,
 
-			// remove link to index page
+			// remove link to index page.
 			'index_rel_link'                  => 10,
 			'wp_shortlink_wp_head'            => 10,
 			'wlwmanifest_link'                => 10,
 
-			// remove really simple discovery link
-			// Remove if not using a blog client found
-			// https://codex.wordpress.org/Weblog_Client
+			// remove really simple discovery link.
+			// Remove if not using a blog client found.
+			// https://codex.wordpress.org/Weblog_Client.
 			'rsd_link'                        => 10,
 
 			// Removes WP 4.2 emoji styles and JS. Nasty stuff.
@@ -129,13 +132,13 @@ if ( ! class_exists( 'Cleanup' ) ) {
 			'wp_generator'                    => 10,
 			'rel_canonical'                   => 10,
 
-			// random post link
+			// random post link.
 			'start_post_rel_link'             => 10,
 
-			// parent post link
+			// parent post link.
 			'parent_post_rel_link'            => 10,
 
-			// remove the next and previous post links
+			// remove the next and previous post links.
 			'adjacent_posts_rel_link_wp_head' => 10,
 		);
 
@@ -162,6 +165,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 
 		/**
 		 * Array of admin bar items to remove.
+		 *
 		 * @var array
 		 */
 		public $admin_bar;
@@ -176,11 +180,12 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		/**
 		 * Cleanup constructor.
 		 *
-		 * @param $args
+		 * @param array $args Array of args. Keys include: widgets, dashboard, menu, admin_bar, links
+		 *                    post_formats.
 		 */
 		protected function __construct( $args ) {
 
-			// Ensure we have the proper setup
+			// Ensure we have the proper setup.
 			$defaults = array(
 				'widgets'      => array(),
 				'dashboard'    => array(),
@@ -191,7 +196,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 			);
 			$args     = wp_parse_args( $args, $defaults );
 
-			// Setup
+			// Setup.
 			$this->widgets   = 'all' === $args['widgets'] ? $this->_wp_widgets : $args['widgets'];
 			$this->dashboard = 'all' === $args['dashboard'] ? $this->_dashboard_widgets : $args['dashboard'];
 			$this->menu      = 'all' === $args['menu'] ? $this->_menu : $args['menu'];
@@ -199,11 +204,11 @@ if ( ! class_exists( 'Cleanup' ) ) {
 			$this->links     = 'all' === $args['links'] ? $this->_links : $args['links'];
 
 			if ( isset( $args['post_formats'] ) && $args['post_formats'] ) {
-				// Disable Post Formats UI
+				// Disable Post Formats UI.
 				add_filter( 'enable_post_format_ui', '__return_false' );
 			}
 
-			// Initiate Cleansing
+			// Initiate Cleansing.
 			$this->init();
 
 		}
@@ -222,27 +227,27 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		 */
 		public function init() {
 
-			// Widgets
+			// Widgets.
 			if ( ! empty( $this->widgets ) ) {
 				add_action( 'widgets_init', array( $this, 'remove_default_wp_widgets' ), 15 );
 			}
 
-			// Dashboard
+			// Dashboard.
 			if ( ! empty( $this->dashboard ) ) {
 				add_action( 'admin_menu', array( $this, 'remove_dashboard_widgets' ), 11 );
 			}
 
-			// Admin Menu Items
+			// Admin Menu Items.
 			if ( ! empty( $this->menu ) ) {
 				add_action( 'admin_menu', array( $this, 'remove_admin_menus' ), 11 );
 			}
 
-			// Admin Bar
+			// Admin Bar.
 			if ( ! empty( $this->admin_bar ) ) {
 				add_action( 'wp_before_admin_bar_render', array( $this, 'remove_admin_bar_items' ) );
 			}
 
-			// Links
+			// Links.
 			if ( ! empty( $this->links ) ) {
 				add_action( 'plugins_loaded', array( $this, 'remove_links' ) );
 			}
@@ -262,14 +267,14 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		}
 
 		/**
-		 * Remove default WordPress widgets
+		 * Remove default WordPress widgets.
 		 *
 		 * @since 1.0
 		 */
 		public function remove_default_wp_widgets() {
 
 			foreach ( $this->widgets as $widget ) {
-				if ( in_array( $widget, $this->_wp_widgets ) ) {
+				if ( in_array( $widget, $this->_wp_widgets, true ) ) {
 					unregister_widget( $widget );
 				}
 			}
@@ -282,7 +287,7 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		public function remove_links() {
 
 			foreach ( $this->links as $link => $priority ) {
-				if ( in_array( $link, $this->_links ) ) {
+				if ( in_array( $link, $this->_links, true ) ) {
 					remove_action( 'wp_head', $link, $priority );
 				}
 
@@ -308,13 +313,11 @@ if ( ! class_exists( 'Cleanup' ) ) {
 
 		/**
 		 * Remove extra dashboard widgets
-		 *
-		 * @since 1.0
 		 */
 		public function remove_dashboard_widgets() {
 
 			foreach ( $this->dashboard as $widget ) {
-				if ( in_array( $widget, $this->_dashboard_widgets ) ) {
+				if ( in_array( $widget, $this->_dashboard_widgets, true ) ) {
 					remove_meta_box( $widget, 'dashboard', 'core' );
 				}
 			}
@@ -323,13 +326,11 @@ if ( ! class_exists( 'Cleanup' ) ) {
 
 		/**
 		 * Remove admin menu items
-		 *
-		 * @since 1.0
 		 */
 		public function remove_admin_menus() {
 
 			foreach ( $this->menu as $menu ) {
-				if ( in_array( $menu, $this->_menu ) ) {
+				if ( in_array( $menu, $this->_menu, true ) ) {
 					remove_menu_page( $menu );
 				}
 			}
@@ -337,10 +338,9 @@ if ( ! class_exists( 'Cleanup' ) ) {
 		}
 
 		/**
-		 * Remove admin bar items
+		 * Remove admin bar items.
 		 *
-		 * @since 1.0
-		 * @global array $wp_admin_bar
+		 * @global \WP_Admin_Bar $wp_admin_bar
 		 */
 		public function remove_admin_bar_items() {
 			global $wp_admin_bar;
