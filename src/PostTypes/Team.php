@@ -2,8 +2,7 @@
 
 namespace Site\PostTypes;
 
-use WPS\Core;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use WPS;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -11,18 +10,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-class Team extends Core\Post_Type {
+class Team extends WPS\Core\Post_Type {
 
+	/**
+	 * Post Type registered name
+	 *
+	 * @var string
+	 */
 	public $post_type = 'team';
 
+	/**
+	 * Singular Post Type registered name
+	 *
+	 * @var string
+	 */
+	public $singular = 'team-member';
+
+	/**
+	 * Plural Post Type registered name
+	 *
+	 * @var string
+	 */
+	public $plural = 'team-members';
+
+	/**
+	 * What metaboxes to remove.
+	 *
+	 * Supports 'genesis-cpt-archives-layout-settings', 'genesis-cpt-archives-seo-settings',
+	 * and 'genesis-cpt-archives-settings'.
+	 *
+	 * @var array
+	 */
 	public $remove_metaboxes = array(
 		'genesis-cpt-archives-layout-settings'
 	);
 
-	public $remove_post_type_meta = true;
+	/**
+	 * Whether to remove meta functions from post type display.
+	 *
+	 * @var bool
+	 */
+	public $remove_post_type_entry_meta = true;
 
 	public function core_acf_fields( $fields ) {
-		$content = new FieldsBuilder( $this->post_type );
+		$content = $this->new_fields_builder();
 		$content
 			->addText( 'position', array(
 				// For use by "mcguffin/acf-quick-edit-fields",
@@ -39,7 +70,7 @@ class Team extends Core\Post_Type {
 			) )
 			->setLocation( 'post_type', '==', $this->post_type );
 
-		$social = new FieldsBuilder( 'social', array(
+		$social = $this->new_fields_builder( 'social', array(
 			'title' => __( 'Social Settings', SITECORE_PLUGIN_DOMAIN ),
 		) );
 
@@ -71,7 +102,32 @@ class Team extends Core\Post_Type {
 	 */
 	public function create_post_type() {
 
-		$labels   = array(
+		$this->register_post_type( array(
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 6.9,
+			'menu_icon'           => 'dashicons-groups',
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => 'team',
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'capability_type'     => 'post',
+			'show_in_rest'        => true,
+		) );
+
+//		WPS\Core\Fields::get_instance();
+
+		new WPS\Schema\Entry_Schema( $this->post_type, 'person' );
+
+//	new WPS\Templates\Simple_Sidebars( $this->post_type );
+	}
+
+	public function get_labels() {
+		return array(
 			'name'                  => _x( 'Team Members', 'Post Type General Name', SITE_MU_TEXT_DOMAIN ),
 			'singular_name'         => _x( 'Team Member', 'Post Type Singular Name', SITE_MU_TEXT_DOMAIN ),
 			'menu_name'             => __( 'Team Members', SITE_MU_TEXT_DOMAIN ),
@@ -100,13 +156,15 @@ class Team extends Core\Post_Type {
 			'items_list_navigation' => __( 'Items list navigation', SITE_MU_TEXT_DOMAIN ),
 			'filter_items_list'     => __( 'Filter items list', SITE_MU_TEXT_DOMAIN ),
 		);
-		$rewrite  = array(
-			'slug'       => $this->post_type,
-			'with_front' => true,
-			'pages'      => true,
-			'feeds'      => true,
-		);
-		$supports = array(
+	}
+
+	/**
+	 * Gets supports array.
+	 *
+	 * @return array Array of post type supports.
+	 */
+	protected function get_supports() {
+		return array(
 			'title',
 			'editor',
 			'excerpt',
@@ -115,34 +173,6 @@ class Team extends Core\Post_Type {
 			'genesis-cpt-archives-settings',
 			'genesis-simple-sidebars',
 		);
-		$args     = array(
-			'label'               => __( 'Team Members', SITE_MU_TEXT_DOMAIN ),
-			'description'         => __( 'For Team Members', SITE_MU_TEXT_DOMAIN ),
-			'labels'              => $labels,
-			'supports'            => $supports,
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'menu_position'       => 6.9,
-			'menu_icon'           => 'dashicons-groups',
-			'show_in_admin_bar'   => true,
-			'show_in_nav_menus'   => false,
-			'can_export'          => true,
-			'has_archive'         => 'team',
-			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
-			'rewrite'             => $rewrite,
-			'capability_type'     => 'post',
-			'show_in_rest'        => true,
-		);
-		register_post_type( $this->post_type, $args );
-
-		WPS\Core\Fields::get_instance();
-
-		new WPS\Schema\Entry_Schema( $this->post_type, 'person' );
-
-//	new WPS\Templates\Simple_Sidebars( $this->post_type );
 	}
 
 	// manage columns
