@@ -20,7 +20,7 @@ class Page extends Core\Singleton {
 	}
 
 	public function core_acf_fields( $fields ) {
-		$content = new FieldsBuilder( $this->post_type );
+		$content = $this->new_fields_builder();
 		$content
 			->addTextarea( 'page_description_value', array(
 				'label'       => __( 'Page Description', SITE_MU_TEXT_DOMAIN ),
