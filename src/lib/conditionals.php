@@ -163,3 +163,30 @@ function is_plugin_active( $plugin ) {
 
 	return \is_plugin_active( $plugin );
 }
+
+/**
+ * Checks to see if a heartbeat is resulting in activity.
+ *
+ * @return bool
+ */
+function is_heartbeat() {
+	return ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] );
+}
+
+/**
+ * Checks to see if DOING_AJAX.
+ *
+ * @return bool
+ */
+function is_doing_ajax() {
+	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
+ * Checks to see if WP_CLI.
+ *
+ * @return bool
+ */
+function is_wp_cli() {
+	return ( defined( 'WP_CLI' ) && WP_CLI );
+}
