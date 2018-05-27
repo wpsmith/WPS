@@ -33,6 +33,7 @@
     "files": [
       "src/lib/functions.php",
       "src/lib/archives.php",
+      "src/lib/conditionals.php",
       "src/lib/column-classes.php",
       "src/lib/debug.php",
       "src/lib/images.php",
